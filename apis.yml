@@ -1,0 +1,28 @@
+aid: carvel
+name: Carvel
+description: >-
+  Carvel provides a set of composable tools for application building, configuration, and deployment to Kubernetes.
+type: Index
+image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+tags:
+  - Containers
+url: >-
+  https://raw.githubusercontent.com/api-evangelist/carvel/refs/heads/main/apis.yml
+created: '2026-03-26'
+modified: '2026-03-26'
+specificationVersion: '0.19'
+apis:
+  - aid: carvel:carvel
+    name: Carvel
+    description: >-
+      Carvel provides a set of composable tools for application building, configuration, and deployment to Kubernetes.
+    humanURL: https://carvel.dev/
+    tags:
+      - Containers
+    properties: []
+common:
+  - type: Website
+    url: https://carvel.dev/
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com
