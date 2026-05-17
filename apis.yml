@@ -8,7 +8,7 @@ description: >-
   vendored configuration, and kapp-controller for GitOps-style continuous
   delivery.
 type: Index
-x-type: opensource
+kind: opensource
 position: Consumer
 access: Open Source
 image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
@@ -43,7 +43,7 @@ apis:
     properties:
       - type: Documentation
         url: https://carvel.dev/ytt/docs/latest/
-      - type: GitHub Repository
+      - type: GitHubRepository
         url: https://github.com/carvel-dev/ytt
       - type: Playground
         url: https://carvel.dev/ytt/#playground
@@ -74,7 +74,7 @@ apis:
     properties:
       - type: Documentation
         url: https://carvel.dev/kapp/docs/latest/
-      - type: GitHub Repository
+      - type: GitHubRepository
         url: https://github.com/carvel-dev/kapp
     x-features:
       - Change-set preview before apply
@@ -100,7 +100,7 @@ apis:
     properties:
       - type: Documentation
         url: https://carvel.dev/kbld/docs/latest/
-      - type: GitHub Repository
+      - type: GitHubRepository
         url: https://github.com/carvel-dev/kbld
     x-features:
       - Resolve image tags to digests
@@ -126,7 +126,7 @@ apis:
     properties:
       - type: Documentation
         url: https://carvel.dev/imgpkg/docs/latest/
-      - type: GitHub Repository
+      - type: GitHubRepository
         url: https://github.com/carvel-dev/imgpkg
     x-features:
       - OCI-compliant bundles
@@ -150,7 +150,7 @@ apis:
     properties:
       - type: Documentation
         url: https://carvel.dev/vendir/docs/latest/
-      - type: GitHub Repository
+      - type: GitHubRepository
         url: https://github.com/carvel-dev/vendir
     x-features:
       - Declarative sync from Git, HTTP, Helm, OCI
@@ -177,7 +177,7 @@ apis:
     properties:
       - type: Documentation
         url: https://carvel.dev/kapp-controller/docs/latest/
-      - type: GitHub Repository
+      - type: GitHubRepository
         url: https://github.com/carvel-dev/kapp-controller
     x-features:
       - App and Package CRDs
@@ -201,7 +201,7 @@ apis:
       - Kubernetes
       - Secrets
     properties:
-      - type: GitHub Repository
+      - type: GitHubRepository
         url: https://github.com/carvel-dev/secretgen-controller
     x-features:
       - Generate Certificates, Passwords, RSA Keys, SSH Keys
@@ -216,7 +216,7 @@ common:
     url: https://carvel.dev/
   - type: Documentation
     url: https://carvel.dev/docs/latest/
-  - type: GitHub Organization
+  - type: GitHubOrganization
     url: https://github.com/carvel-dev
   - type: Blog
     url: https://carvel.dev/blog/
