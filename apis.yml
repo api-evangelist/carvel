@@ -224,6 +224,19 @@ apis:
       - Sharing secrets across namespaces
       - Declarative certificate management
 common:
+  - type: IssueTracker
+    url: https://github.com/carvel-dev/ytt/issues
+  - type: Releases
+    url: https://github.com/carvel-dev/ytt/releases
+  - type: SecurityPolicy
+    url: https://github.com/carvel-dev/ytt/blob/develop/SECURITY.md
+  - type: CodeOfConduct
+    url: https://github.com/carvel-dev/ytt/blob/develop/CODE_OF_CONDUCT.md
+  - type: ContributionGuide
+    url: https://github.com/carvel-dev/ytt/blob/develop/CONTRIBUTING.md
+  - type: License
+    name: Apache-2.0
+    url: https://github.com/carvel-dev/ytt/blob/develop/LICENSE
   - type: DomainSecurity
     url: security/carvel-domain-security.yml
   - type: Website
