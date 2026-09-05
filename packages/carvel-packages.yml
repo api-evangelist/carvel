@@ -1,0 +1,190 @@
+generated: '2026-09-05'
+method: searched
+source: >-
+  proxy.golang.org module proxy, api.github.com releases, registry.terraform.io,
+  github.com/carvel-dev/homebrew, and https://carvel.dev/<tool>/docs/latest/install/
+note: >-
+  Carvel ships no client SDK for a hosted API — it has no hosted API. What it distributes are the
+  tools themselves: seven Go modules under the carvel.dev module path, signed release binaries on
+  GitHub Releases, a Homebrew tap, a GitHub Action, and a Terraform provider. Versions and dates
+  below were read from each registry's own metadata endpoint on 2026-09-05.
+packages:
+  - language: go
+    registry: go
+    name: carvel.dev/ytt
+    url: https://pkg.go.dev/carvel.dev/ytt
+    install: go install carvel.dev/ytt/cmd/ytt@latest
+    official: true
+    version: v0.55.2
+    published: '2026-08-13'
+    source: https://proxy.golang.org/carvel.dev/ytt/@latest
+  - language: go
+    registry: go
+    name: carvel.dev/kapp
+    url: https://pkg.go.dev/carvel.dev/kapp
+    install: go install carvel.dev/kapp/cmd/kapp@latest
+    official: true
+    version: v0.66.0
+    published: '2026-02-16'
+    source: https://proxy.golang.org/carvel.dev/kapp/@latest
+    note: >-
+      The module proxy's highest semver tag (v0.66.0) is ahead of the latest published GitHub
+      release (v0.65.4, 2026-08-25); the release binaries are the distribution the docs point at.
+  - language: go
+    registry: go
+    name: carvel.dev/kbld
+    url: https://pkg.go.dev/carvel.dev/kbld
+    install: go install carvel.dev/kbld/cmd/kbld@latest
+    official: true
+    version: v0.49.1
+    published: '2026-06-17'
+    source: https://proxy.golang.org/carvel.dev/kbld/@latest
+  - language: go
+    registry: go
+    name: carvel.dev/imgpkg
+    url: https://pkg.go.dev/carvel.dev/imgpkg
+    install: go install carvel.dev/imgpkg/cmd/imgpkg@latest
+    official: true
+    version: v0.48.1
+    published: '2026-05-27'
+    source: https://proxy.golang.org/carvel.dev/imgpkg/@latest
+  - language: go
+    registry: go
+    name: carvel.dev/vendir
+    url: https://pkg.go.dev/carvel.dev/vendir
+    install: go install carvel.dev/vendir/cmd/vendir@latest
+    official: true
+    version: v0.46.1
+    published: '2026-08-25'
+    source: https://proxy.golang.org/carvel.dev/vendir/@latest
+  - language: go
+    registry: go
+    name: carvel.dev/kapp-controller
+    url: https://pkg.go.dev/carvel.dev/kapp-controller
+    install: go get carvel.dev/kapp-controller
+    official: true
+    version: v0.60.6
+    published: '2026-08-28'
+    source: https://proxy.golang.org/carvel.dev/kapp-controller/@latest
+    note: Also the Go API for the kappctrl.k14s.io and packaging.carvel.dev CRD types.
+  - language: go
+    registry: go
+    name: carvel.dev/secretgen-controller
+    url: https://pkg.go.dev/carvel.dev/secretgen-controller
+    install: go get carvel.dev/secretgen-controller
+    official: true
+    version: v0.21.2
+    published: '2026-08-25'
+    source: https://proxy.golang.org/carvel.dev/secretgen-controller/@latest
+  - language: binary
+    registry: github-releases
+    name: ytt
+    url: https://github.com/carvel-dev/ytt/releases
+    install: brew tap carvel-dev/carvel && brew install ytt
+    official: true
+    version: v0.55.2
+    published: '2026-08-14'
+    source: https://api.github.com/repos/carvel-dev/ytt/releases/latest
+  - language: binary
+    registry: github-releases
+    name: kapp
+    url: https://github.com/carvel-dev/kapp/releases
+    install: brew tap carvel-dev/carvel && brew install kapp
+    official: true
+    version: v0.65.4
+    published: '2026-08-25'
+    source: https://api.github.com/repos/carvel-dev/kapp/releases/latest
+  - language: binary
+    registry: github-releases
+    name: kbld
+    url: https://github.com/carvel-dev/kbld/releases
+    install: brew tap carvel-dev/carvel && brew install kbld
+    official: true
+    version: v0.49.1
+    published: '2026-06-17'
+    source: https://api.github.com/repos/carvel-dev/kbld/releases/latest
+  - language: binary
+    registry: github-releases
+    name: imgpkg
+    url: https://github.com/carvel-dev/imgpkg/releases
+    install: brew tap carvel-dev/carvel && brew install imgpkg
+    official: true
+    version: v0.48.1
+    published: '2026-06-01'
+    source: https://api.github.com/repos/carvel-dev/imgpkg/releases/latest
+  - language: binary
+    registry: github-releases
+    name: vendir
+    url: https://github.com/carvel-dev/vendir/releases
+    install: brew tap carvel-dev/carvel && brew install vendir
+    official: true
+    version: v0.46.1
+    published: '2026-08-25'
+    source: https://api.github.com/repos/carvel-dev/vendir/releases/latest
+  - language: binary
+    registry: github-releases
+    name: kctrl
+    url: https://github.com/carvel-dev/kapp-controller/releases
+    install: brew tap carvel-dev/carvel && brew install kctrl
+    official: true
+    version: v0.60.6
+    published: '2026-08-28'
+    source: https://api.github.com/repos/carvel-dev/kapp-controller/releases/latest
+    note: kctrl is the kapp-controller CLI; the controller image ships in the same release.
+  - language: binary
+    registry: github-releases
+    name: secretgen-controller
+    url: https://github.com/carvel-dev/secretgen-controller/releases
+    install: kapp deploy -a sg -f https://github.com/carvel-dev/secretgen-controller/releases/latest/download/release.yml
+    official: true
+    version: v0.21.2
+    published: '2026-08-25'
+    source: https://api.github.com/repos/carvel-dev/secretgen-controller/releases/latest
+  - language: shell
+    registry: homebrew
+    name: carvel-dev/carvel
+    url: https://github.com/carvel-dev/homebrew
+    install: brew tap carvel-dev/carvel
+    official: true
+    version: null
+    published: null
+    note: >-
+      A self-hosted tap, not a homebrew-core formula, so there is no versions API to query. Formula
+      versions read from the tap's develop branch on 2026-09-05 — ytt v0.55.1, kapp v0.65.4,
+      kbld v0.49.1, imgpkg v0.48.1, vendir v0.46.1, kctrl v0.60.6, kwt v0.0.8. The ytt formula
+      trails the v0.55.2 release by one patch.
+  - language: shell
+    registry: cdn
+    name: install.sh
+    url: https://carvel.dev/install.sh
+    install: curl -L https://carvel.dev/install.sh | bash
+    official: true
+    version: null
+    published: null
+    note: >-
+      Unpinned distribution — the script always floats to the versions it hard-codes at fetch time,
+      so a consumer cannot tell from the URL which tool versions they are getting. Served 200 on
+      2026-09-05 (4,417 bytes).
+  - language: typescript
+    registry: github-releases
+    name: carvel-dev/setup-action
+    url: https://github.com/carvel-dev/setup-action
+    install: 'uses: carvel-dev/setup-action@v2'
+    official: true
+    version: v2.2.0
+    published: '2026-04-27'
+    source: https://api.github.com/repos/carvel-dev/setup-action/releases/latest
+    note: GitHub Action that installs ytt, kbld, kapp, kctrl, imgpkg, vendir and kwt in CI.
+  - language: hcl
+    registry: terraform
+    name: carvel-dev/carvel
+    url: https://registry.terraform.io/providers/carvel-dev/carvel/latest
+    install: 'terraform { required_providers { carvel = { source = "carvel-dev/carvel" } } }'
+    official: true
+    version: 0.11.2
+    published: '2023-07-12'
+    source: https://registry.terraform.io/v1/providers/carvel-dev/carvel
+    note: >-
+      Community-tier provider in the carvel-dev namespace with ytt and kapp resources. Last release
+      2023-07-12 — three years behind the tools it wraps, which is the clearest decay signal in
+      this set.

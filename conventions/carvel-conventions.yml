@@ -1,0 +1,152 @@
+generated: '2026-09-05'
+method: searched
+source: https://carvel.dev/kapp/docs/v0.64.x/ and the per-tool reference trees on carvel.dev
+note: >-
+  Carvel exposes no HTTP API, so the usual HTTP conventions (pagination, envelopes, rate-limit
+  headers, request-id tracing) have no surface to apply to and are recorded as `na` rather than
+  `none` — an honest not-applicable, not a missing feature. The runtime semantics that DO exist,
+  and that an agent driving these tools has to know, are convergence, dry-run and deletion.
+surface:
+  kind: cli-and-kubernetes-controller
+  callable_host: false
+  contracts:
+    - json-schema/carvel-kapp-controller-crds.yml
+    - json-schema/carvel-secretgen-controller-crds.yml
+    - grpc/carvel-kapp-controller-kappctrl-v1alpha1.proto
+authentication:
+  style: delegated
+  summary: >-
+    No Carvel-issued credential exists. kapp, kctrl and kapp-controller authenticate as the caller's
+    kubeconfig context under Kubernetes RBAC; kbld, imgpkg and vendir authenticate to OCI registries
+    with registry credentials.
+  detail: authentication/carvel-authentication.yml
+idempotency:
+  supported: true
+  coverage: full
+  mechanism: declarative-convergence
+  key_header: null
+  retention: null
+  summary: >-
+    Idempotency here is structural, not header-based. kapp's deploy is a converge: it computes a
+    change set by diffing the supplied config against live cluster objects, and a resource with no
+    difference is classified `noop` and not touched. Re-running the same `kapp deploy` against an
+    unchanged cluster therefore applies nothing. The same holds for kapp-controller (it
+    continuously reconciles an App/PackageInstall toward its declared spec) and for vendir sync
+    (reconciles a directory to vendir.yml and records vendir.lock.yml).
+  scope_note: >-
+    coverage is `full` because it spans the whole mutating surface — deploy for kapp, reconcile for
+    kapp-controller and secretgen-controller, sync for vendir, push/copy for imgpkg — and not
+    because a subset of operations accept a key. There is no Idempotency-Key equivalent to send and
+    no replay window to observe; safety comes from the diff, so an agent must read the change set
+    rather than trust a token.
+  evidence:
+    - >-
+      https://carvel.dev/kapp/docs/v0.64.x/diff/ — "There are five different types of operations:
+      create, update, delete, noop (shown as empty), exists".
+    - >-
+      https://carvel.dev/kapp/docs/v0.64.x/ — "Converges application resources (creates, updates
+      and/or deletes resources) in each deploy based on comparison between provided files and live
+      objects in the cluster".
+dry_run_mode:
+  supported: true
+  summary: >-
+    `kapp deploy --diff-run` computes and prints the full change set, then exits successfully
+    without applying anything. `--diff-changes`/`--diff-changes-yaml` print the diff or the YAML
+    that would be applied, `--diff-exit-status` returns a change-count-derived exit code so CI (or
+    an agent) can gate on it, and `--diff-filter` narrows the set. Separating the diff stage from
+    the apply stage is a design property of kapp, not a flag bolted on.
+  operations: ['kapp deploy --diff-run']
+  docs: https://carvel.dev/kapp/docs/v0.64.x/diff/
+reversibility:
+  grade: documented
+  summary: >-
+    Every kapp deploy is reversible in the sense that matters most for a deployment tool: the app is
+    a labelled set, and `kapp delete -a <app>` removes exactly the resources that app owns. Each
+    deploy is also recorded — kapp writes a ConfigMap per deploy in the state namespace, listable
+    via `kapp app-change ls -a <app>`. What is NOT published anywhere is a time window, and there is
+    no `kapp rollback`: reverting a bad deploy means re-applying the previous configuration
+    yourself. That is why this grades `documented` and not `verified`.
+  write_surfaces:
+    - surface: kapp deploy
+      reversal: kapp delete -a <app>
+      operation: delete
+      window: null
+      window_stated: false
+      docs: https://carvel.dev/kapp/docs/v0.64.x/command-reference/
+      note: >-
+        Deletes only resources carrying the app's ownership label. Not a rollback — it removes the
+        application rather than restoring the prior revision.
+    - surface: kapp deploy (revision history)
+      reversal: re-deploy the previous configuration
+      operation: null
+      window: null
+      window_stated: false
+      docs: https://carvel.dev/kapp/docs/v0.64.x/state-namespace/
+      note: >-
+        "kapp creates ConfigMap per each deploy to record deployment history (seen via kapp
+        app-change list -a app1)". The history is a record; kapp does not restore from it.
+    - surface: kapp-controller PackageInstall
+      reversal: kctrl package installed update --version <previous>
+      operation: null
+      window: null
+      window_stated: false
+      docs: https://carvel.dev/kapp-controller/docs/v0.57.x/
+      note: Version constraints allow pinning back to an earlier package version; no undo primitive.
+    - surface: imgpkg push / copy
+      reversal: null
+      operation: null
+      window: null
+      window_stated: false
+      note: >-
+        Registry writes are not reversible by imgpkg. A pushed bundle can be re-tagged, not
+        un-pushed; deletion is the registry's concern, not Carvel's.
+    - surface: vendir sync
+      reversal: re-run vendir sync against the committed vendir.lock.yml
+      operation: sync
+      window: null
+      window_stated: false
+      docs: https://carvel.dev/vendir/docs/v0.46.x/
+      note: The lock file makes a sync reproducible, which is what makes the prior state recoverable.
+  dangerous_operations:
+    - flag: --dangerous-allow-empty-list-of-resources
+      effect: Applying an empty set behaves the same as kapp delete.
+    - flag: --dangerous-override-ownership-of-existing-resources
+      effect: Takes ownership of resources belonging to another app.
+    - docs: https://carvel.dev/kapp/docs/v0.64.x/dangerous-flags/
+  confirmation: >-
+    kapp asks for interactive confirmation of the change set unless `--yes` is passed — an agent
+    running non-interactively must pass --yes and is therefore skipping the human gate.
+pagination:
+  applicable: false
+  note: No HTTP collection endpoints. Kubernetes list paging applies at the apiserver, not at Carvel.
+error_envelope:
+  applicable: false
+  style: cli-exit-code-and-k8s-status-conditions
+  note: >-
+    Failures surface as non-zero CLI exit codes with human-readable messages, and — for the
+    controllers — as `status.conditions` and `status.usefulErrorMessage` on the App CR (see the
+    kappctrl v1alpha1 proto and CRD schema in this repo).
+rate_limit_signaling:
+  applicable: false
+  note: >-
+    No Carvel-operated endpoint to throttle. Real-world limits come from the target registry and the
+    target Kubernetes apiserver, both third parties. See rate-limits/carvel-rate-limits.yml.
+versioning:
+  style: per-tool semver plus Kubernetes API group/version
+  detail: lifecycle/carvel-lifecycle.yml
+request_tracing:
+  applicable: false
+  note: No request-id header; kapp streams per-resource apply logs and `kapp logs -a <app>` tails pods.
+metadata:
+  supported: true
+  note: >-
+    kapp attaches ownership and app labels to every resource it applies, and behaviour is steered
+    with kapp.k14s.io/* resource annotations (create-strategy, update-strategy, delete-strategy,
+    change-group, change-rule, exists, noop). kbld records image-source metadata as annotations on
+    the resources it rewrites.
+cross_links:
+  errors: null
+  lifecycle: lifecycle/carvel-lifecycle.yml
+  authentication: authentication/carvel-authentication.yml
+  rate_limits: rate-limits/carvel-rate-limits.yml
+  cli: cli/carvel-cli.yml

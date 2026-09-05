@@ -48,7 +48,7 @@ tags:
 url: >-
   https://raw.githubusercontent.com/api-evangelist/carvel/refs/heads/main/apis.yml
 created: '2026-03-26'
-modified: '2026-04-23'
+modified: '2026-09-05'
 specificationVersion: '0.23'
 apis:
   - aid: carvel:ytt
@@ -176,6 +176,9 @@ apis:
         url: https://carvel.dev/vendir/docs/latest/
       - type: GitHubRepository
         url: https://github.com/carvel-dev/vendir
+      - type: Protobuf
+        name: vendir versions v1alpha1 protobuf (semver VersionSelection)
+        url: grpc/carvel-vendir-versions-v1alpha1.proto
     x-features:
       - Declarative sync from Git, HTTP, Helm, OCI
       - Lock files for reproducibility
@@ -203,6 +206,17 @@ apis:
         url: https://carvel.dev/kapp-controller/docs/latest/
       - type: GitHubRepository
         url: https://github.com/carvel-dev/kapp-controller
+      - type: JSONSchema
+        name: kapp-controller CRD schemas (App, PackageInstall, PackageRepository, InternalPackage, InternalPackageMetadata)
+        url: json-schema/carvel-kapp-controller-crds.yml
+      - type: Protobuf
+        name: kappctrl.k14s.io v1alpha1 protobuf
+        url: grpc/carvel-kapp-controller-kappctrl-v1alpha1.proto
+      - type: Protobuf
+        name: data.packaging.carvel.dev v1alpha1 protobuf
+        url: grpc/carvel-kapp-controller-datapackaging-v1alpha1.proto
+      - type: DataModel
+        url: data-model/carvel-data-model.yml
     x-features:
       - App and Package CRDs
       - PackageRepository for distribution
@@ -227,6 +241,9 @@ apis:
     properties:
       - type: GitHubRepository
         url: https://github.com/carvel-dev/secretgen-controller
+      - type: JSONSchema
+        name: secretgen-controller CRD schemas (SecretExport, SecretImport, SecretTemplate, Certificate, Password, RSAKey, SSHKey)
+        url: json-schema/carvel-secretgen-controller-crds.yml
     x-features:
       - Generate Certificates, Passwords, RSA Keys, SSH Keys
       - Cross-namespace secret export/import
@@ -254,7 +271,7 @@ common:
   - type: Website
     url: https://carvel.dev/
   - type: Documentation
-    url: https://carvel.dev/docs/latest/
+    url: https://carvel.dev/shared/docs/latest/
   - type: GitHubOrganization
     url: https://github.com/carvel-dev
   - type: Blog
@@ -263,6 +280,49 @@ common:
     url: https://kubernetes.slack.com/archives/CH8KCCKA5
   - type: Community
     url: https://carvel.dev/community/
+  - type: RoadMap
+    url: https://github.com/carvel-dev/carvel/blob/develop/ROADMAP.md
+  - type: Security
+    url: https://carvel.dev/shared/docs/latest/security-policy/
+  - type: Protobuf
+    name: kapp-controller and vendir Kubernetes API protobuf definitions
+    url: grpc/_index.yml
+  - type: JSONSchema
+    name: Carvel CustomResourceDefinition schemas (12 CRDs, openAPIV3Schema)
+    url: json-schema/_index.yml
+  - type: Packages
+    url: packages/carvel-packages.yml
+  - type: CLI
+    url: cli/carvel-cli.yml
+  - type: LLMsTxt
+    url: llms/carvel-llms.txt
+  - type: ChangeLog
+    url: changelog/carvel-changelog.yml
+  - type: Lifecycle
+    url: lifecycle/carvel-lifecycle.yml
+  - type: Conformance
+    url: conformance/carvel-conformance.yml
+  - type: Conventions
+    url: conventions/carvel-conventions.yml
+  - type: Idempotency
+    url: conventions/carvel-conventions.yml
+  - type: DataModel
+    url: data-model/carvel-data-model.yml
+  - type: Authentication
+    url: authentication/carvel-authentication.yml
+  - type: VulnerabilityDisclosure
+    url: security/carvel-vulnerability-disclosure.yml
+  - type: Sandbox
+    url: sandbox/carvel-sandbox.yml
+  - type: Plans
+    url: plans/carvel-plans-pricing.yml
+  - type: RateLimits
+    url: rate-limits/carvel-rate-limits.yml
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com
+x-enrichment:
+  date: '2026-09-05'
+  status: enriched
+  artifacts_added: 20
+  pass: local-v3

@@ -1,0 +1,68 @@
+generated: '2026-09-05'
+method: searched
+source: https://carvel.dev/ + https://github.com/carvel-dev
+note: >-
+  Carvel operates nothing. The tools run on the operator's own machine and the controllers run in
+  the operator's own cluster, so there is no service to have uptime, an SLA or a status page —
+  their absence here is a property of the delivery model, not a gap in the project's practice.
+versioning:
+  scheme: semver
+  per_component: true
+  current:
+    ytt: v0.55.2
+    kapp: v0.65.4
+    kbld: v0.49.1
+    imgpkg: v0.48.1
+    vendir: v0.46.1
+    kapp-controller: v0.60.6
+    secretgen-controller: v0.21.2
+  api_versioning:
+    scheme: kubernetes-api-group-version
+    groups:
+      - {group: kappctrl.k14s.io, version: v1alpha1}
+      - {group: packaging.carvel.dev, version: v1alpha1}
+      - {group: data.packaging.carvel.dev, version: v1alpha1}
+      - {group: internal.packaging.carvel.dev, version: v1alpha1}
+      - {group: secretgen.carvel.dev, version: v1alpha1}
+      - {group: secretgen.k14s.io, version: v1alpha1}
+    note: >-
+      Every published API group is still v1alpha1 — under Kubernetes API conventions that is an
+      explicit no-compatibility-guarantee tier, and it is the single most important lifecycle fact
+      about Carvel's machine-readable surface.
+  docs_versioning:
+    scheme: per-minor-docs-tree
+    example: https://carvel.dev/ytt/docs/v0.52.x/
+    note: >-
+      carvel.dev keeps a documentation tree per minor line back to v0.38.0 for ytt and v0.44.0 for
+      kapp, plus a develop tree. /docs/latest/ resolves by client-side redirect to the current
+      minor, so a fetch of the /latest/ URL returns a 350-byte redirect stub, not the page.
+deprecation:
+  policy_url: null
+  sunset_header: false
+  note: >-
+    No written deprecation or support-window policy was found on carvel.dev, in the carvel-dev
+    community repo, or in GOVERNANCE.md as of 2026-09-05. Deprecations are announced per release in
+    GitHub release notes and, for CLI flags, in the versioned docs (kapp publishes a "Dangerous
+    Flags" reference and an experimental Configmap Migration page). This is the clearest
+    documentation gap in the project's lifecycle posture.
+  found: false
+sla: null
+status_page: null
+status_page_note: >-
+  Deliberately none. Carvel ships self-hosted binaries and in-cluster controllers; it operates no
+  endpoint whose availability could be reported.
+support:
+  channels:
+    - {kind: slack, url: 'https://kubernetes.slack.com/archives/CH8KCCKA5', name: '#carvel on Kubernetes Slack'}
+    - {kind: community, url: 'https://carvel.dev/community/', name: Community meetings}
+    - {kind: issues, url: 'https://github.com/carvel-dev/ytt/issues', name: Per-repository GitHub issues}
+governance:
+  foundation: Cloud Native Computing Foundation (Sandbox)
+  url: https://www.cncf.io/sandbox-projects/
+  governance_doc: https://github.com/carvel-dev/carvel/blob/develop/GOVERNANCE.md
+  roadmap: https://github.com/carvel-dev/carvel/blob/develop/ROADMAP.md
+  roadmap_note: >-
+    Published and structured (feature / stage / timeline table) but stamped "Last Updated: April
+    2024"; the day-to-day board is https://github.com/orgs/carvel-dev/projects/1.
+  license: Apache-2.0
+deprecated_operations: []

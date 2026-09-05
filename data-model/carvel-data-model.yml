@@ -1,0 +1,110 @@
+generated: '2026-09-05'
+method: derived
+source: >-
+  json-schema/carvel-kapp-controller-crds.yml, json-schema/carvel-secretgen-controller-crds.yml,
+  grpc/carvel-kapp-controller-datapackaging-v1alpha1.proto
+note: >-
+  Derived by walking the openAPIV3Schema of the 12 published CRDs and the datapackaging proto.
+  Relationships come from real reference fields in those schemas (packageRef.refName,
+  fetch.imgpkgBundle, caRef, fromNamespace/toNamespace), not from prose. PackageMetadata and
+  Package are served by kapp-controller's aggregated apiserver on data.packaging.carvel.dev and
+  are backed on disk by the InternalPackageMetadata / InternalPackage CRDs.
+entities:
+  - name: App
+    group: kappctrl.k14s.io/v1alpha1
+    scope: Namespaced
+    id_field: metadata.name
+    summary: A fetch/template/deploy pipeline reconciled continuously by kapp-controller.
+    key_fields: [fetch, template, deploy, serviceAccountName, cluster, syncPeriod, paused, canceled, noopDelete, defaultNamespace]
+  - name: PackageInstall
+    group: packaging.carvel.dev/v1alpha1
+    scope: Namespaced
+    id_field: metadata.name
+    summary: A request to install a specific Package version, with user-supplied values.
+    key_fields: [packageRef, values, serviceAccountName, cluster, syncPeriod, paused, canceled, noopDelete]
+  - name: PackageRepository
+    group: packaging.carvel.dev/v1alpha1
+    scope: Namespaced
+    id_field: metadata.name
+    summary: An imgpkg bundle of Package/PackageMetadata records fetched into the cluster.
+    key_fields: [fetch, syncPeriod, paused]
+  - name: Package
+    group: data.packaging.carvel.dev/v1alpha1
+    scope: Namespaced
+    id_field: metadata.name
+    summary: One released version of a package — its template, value schema and version selectors.
+    key_fields: [refName, version, template, valuesSchema, licenses, releasedAt, releaseNotes, includedSoftware, kubernetesVersionSelection, kappControllerVersionSelection, capacityRequirementsDescription]
+    backed_by: InternalPackage (internal.packaging.carvel.dev/v1alpha1)
+  - name: PackageMetadata
+    group: data.packaging.carvel.dev/v1alpha1
+    scope: Namespaced
+    id_field: metadata.name
+    summary: Version-independent identity of a package — display name, maintainers, categories.
+    key_fields: [displayName, shortDescription, longDescription, providerName, maintainers, categories, supportDescription, iconSVGBase64]
+    backed_by: InternalPackageMetadata (internal.packaging.carvel.dev/v1alpha1)
+  - name: SecretExport
+    group: secretgen.carvel.dev/v1alpha1
+    scope: Namespaced
+    id_field: metadata.name
+    summary: Offers a Secret in this namespace to named other namespaces.
+    key_fields: [toNamespace, toNamespaces, dangerousToNamespacesSelector]
+  - name: SecretImport
+    group: secretgen.carvel.dev/v1alpha1
+    scope: Namespaced
+    id_field: metadata.name
+    summary: Accepts a Secret offered from another namespace.
+    key_fields: [fromNamespace]
+  - name: SecretTemplate
+    group: secretgen.carvel.dev/v1alpha1
+    scope: Namespaced
+    id_field: metadata.name
+    summary: Composes a Secret from fields read off other in-cluster resources.
+    key_fields: [inputResources, template, serviceAccountName]
+  - name: Certificate
+    group: secretgen.k14s.io/v1alpha1
+    scope: Namespaced
+    id_field: metadata.name
+    summary: Declaratively generated x509 certificate, optionally signed by another Certificate.
+    key_fields: [commonName, organization, alternativeNames, duration, isCA, caRef, extendedKeyUsage, secretTemplate]
+  - name: Password
+    group: secretgen.k14s.io/v1alpha1
+    scope: Namespaced
+    id_field: metadata.name
+    summary: Declaratively generated password with a character-class policy.
+    key_fields: [length, digits, symbols, lowercaseLetters, uppercaseLetters, symbolCharSet, secretTemplate]
+  - name: RSAKey
+    group: secretgen.k14s.io/v1alpha1
+    scope: Namespaced
+    id_field: metadata.name
+    summary: Declaratively generated RSA key pair.
+    key_fields: [secretTemplate]
+  - name: SSHKey
+    group: secretgen.k14s.io/v1alpha1
+    scope: Namespaced
+    id_field: metadata.name
+    summary: Declaratively generated SSH key pair.
+    key_fields: [secretTemplate]
+relationships:
+  - {from: PackageInstall, to: Package, kind: belongs_to, via: 'spec.packageRef.refName + spec.packageRef.versionSelection'}
+  - {from: PackageInstall, to: App, kind: has_one, via: kapp-controller creates a backing App CR named after the PackageInstall}
+  - {from: PackageRepository, to: Package, kind: has_many, via: spec.fetch.imgpkgBundle contents are unpacked into Package records}
+  - {from: PackageRepository, to: PackageMetadata, kind: has_many, via: spec.fetch.imgpkgBundle contents are unpacked into PackageMetadata records}
+  - {from: Package, to: PackageMetadata, kind: belongs_to, via: spec.refName matches PackageMetadata metadata.name}
+  - {from: Package, to: InternalPackage, kind: has_one, via: aggregated apiserver backing store}
+  - {from: PackageMetadata, to: InternalPackageMetadata, kind: has_one, via: aggregated apiserver backing store}
+  - {from: App, to: 'Kubernetes ServiceAccount', kind: belongs_to, via: spec.serviceAccountName}
+  - {from: App, to: 'Kubernetes Secret', kind: belongs_to, via: spec.cluster.kubeconfigSecretRef}
+  - {from: App, to: 'OCI bundle (imgpkg)', kind: belongs_to, via: 'spec.fetch[].imgpkgBundle.image'}
+  - {from: Certificate, to: Certificate, kind: belongs_to, via: spec.caRef (issuing CA)}
+  - {from: Certificate, to: 'Kubernetes Secret', kind: has_one, via: spec.secretTemplate}
+  - {from: Password, to: 'Kubernetes Secret', kind: has_one, via: spec.secretTemplate}
+  - {from: RSAKey, to: 'Kubernetes Secret', kind: has_one, via: spec.secretTemplate}
+  - {from: SSHKey, to: 'Kubernetes Secret', kind: has_one, via: spec.secretTemplate}
+  - {from: SecretExport, to: SecretImport, kind: has_many, via: spec.toNamespace(s) matched against SecretImport spec.fromNamespace}
+  - {from: SecretTemplate, to: 'Kubernetes resources', kind: has_many, via: 'spec.inputResources[].ref'}
+id_prefixes: []
+id_prefixes_note: >-
+  Carvel mints no opaque identifiers. Every object is addressed the Kubernetes way — group/version,
+  namespace and metadata.name — which is also why an agent needs no Carvel-specific client.
+entity_count: 12
+relationship_count: 17

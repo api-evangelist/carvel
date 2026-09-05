@@ -1,0 +1,42 @@
+generated: '2026-09-05'
+method: searched
+source: https://github.com/carvel-dev
+note: >-
+  Carvel publishes go-to-protobuf-generated proto2 definitions for its Kubernetes API types in its
+  own repositories. These are the wire contract for the kappctrl.k14s.io, data.packaging.carvel.dev
+  and vendir versions API groups — the same types the CRDs in json-schema/ describe in
+  openAPIV3Schema form. Saved verbatim; nothing here was authored or altered by this pipeline.
+  Ownership check: every proto package is namespaced carvel.dev.* and every file was fetched from
+  a repository in the carvel-dev GitHub organization named on carvel.dev.
+protos:
+  - file: carvel-kapp-controller-kappctrl-v1alpha1.proto
+    service: kapp-controller / kappctrl.k14s.io v1alpha1
+    package: carvel.dev.kapp_controller.pkg.apis.kappctrl.v1alpha1
+    source: https://raw.githubusercontent.com/carvel-dev/kapp-controller/develop/pkg/apis/kappctrl/v1alpha1/generated.proto
+    http_status: 200
+    bytes: 15002
+    fetched: '2026-09-05'
+    describes: The App custom resource — fetch, template and deploy stages, status and conditions.
+  - file: carvel-kapp-controller-datapackaging-v1alpha1.proto
+    service: kapp-controller / data.packaging.carvel.dev v1alpha1
+    package: carvel.dev.kapp_controller.pkg.apiserver.apis.datapackaging.v1alpha1
+    source: https://raw.githubusercontent.com/carvel-dev/kapp-controller/develop/pkg/apiserver/apis/datapackaging/v1alpha1/generated.proto
+    http_status: 200
+    bytes: 4211
+    fetched: '2026-09-05'
+    describes: >-
+      Package and PackageMetadata as served by kapp-controller's aggregated Kubernetes API server
+      (the data.packaging.carvel.dev API group).
+  - file: carvel-vendir-versions-v1alpha1.proto
+    service: vendir / versions v1alpha1
+    package: carvel.dev.vendir.pkg.vendir.versions.v1alpha1
+    source: https://raw.githubusercontent.com/carvel-dev/vendir/develop/pkg/vendir/versions/v1alpha1/generated.proto
+    http_status: 200
+    bytes: 686
+    fetched: '2026-09-05'
+    describes: VersionSelection — the semver constraint types shared by vendir and kapp-controller.
+transport:
+  note: >-
+    These types are served over the Kubernetes API machinery (protobuf content negotiation against
+    a cluster's own apiserver), not over a Carvel-operated gRPC endpoint. There is no Carvel host
+    to dial; the callable host is whatever cluster the operator runs.

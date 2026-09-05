@@ -1,0 +1,24 @@
+generated: '2026-09-05'
+method: searched
+status: none
+source: >-
+  Searched the carvel-dev GitHub organization (32 public repos, listed 2026-09-05), carvel.dev, and
+  the web for a Carvel MCP server.
+note: >-
+  No MCP server exists, and none was derived. The usual fallback — deriving a candidate tool list
+  from OpenAPI operations — has nothing to read: Carvel publishes no OpenAPI. Deriving tools from
+  CLI commands would invent an agent surface the project does not ship, so this file records the
+  absence and no MCPServer pointer is written into apis.yml.
+server: null
+tools: []
+deployment:
+  mode: none
+  endpoint: null
+  install: null
+  package: null
+  auth: unknown
+  verified: searched
+agent_access_today: >-
+  An agent reaches Carvel the same way a human does — by running a CLI, or by submitting one of the
+  12 published custom resources to a Kubernetes apiserver it already holds credentials for. The
+  machine-readable inputs for that path are in json-schema/ (openAPIV3Schema per CRD) and grpc/.

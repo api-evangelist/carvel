@@ -1,0 +1,58 @@
+generated: '2026-09-05'
+method: probed
+source: live HTTPS probes of every host this record knows
+note: >-
+  Carvel publishes no hosted API, so the only host in the record is the project site carvel.dev
+  (a Netlify-hosted Hugo site; the GitHub org github.com/carvel-dev is GitHub's host, not
+  Carvel's, and is deliberately excluded). Every named discovery path returned a clean 404 with
+  the site's own 3,449-byte 404 page. The negative control returned 404 as well, so this host is
+  not a path-echoing or catch-all responder — the absences are real. hit_count: 0, so no
+  WellKnown or SecurityTxt pointer is emitted.
+hit_count: 0
+path_echo_control: passed
+hosts:
+  - host: https://carvel.dev
+    documents:
+      - path: /.well-known/security.txt
+        status: 404
+        file: null
+      - path: /.well-known/openid-configuration
+        status: 404
+        file: null
+      - path: /.well-known/oauth-authorization-server
+        status: 404
+        file: null
+      - path: /.well-known/oauth-protected-resource
+        status: 404
+        file: null
+      - path: /.well-known/api-catalog
+        status: 404
+        file: null
+      - path: /.well-known/ai-plugin.json
+        status: 404
+        file: null
+      - path: /.well-known/aauth-resource.json
+        status: 404
+        file: null
+      - path: /.well-known/agent-card.json
+        status: 404
+        file: null
+      - path: /.well-known/agent.json
+        status: 404
+        file: null
+      - path: /.well-known/apis.json
+        status: 404
+        file: null
+      - path: /apis.json
+        status: 404
+        file: null
+      - path: /apis.yml
+        status: 404
+        file: null
+      - path: /llms.txt
+        status: 404
+        file: null
+      - path: /.well-known/carvel-negative-control-7f3ab91c.json
+        status: 404
+        file: null
+        control: negative

@@ -1,0 +1,70 @@
+# Carvel
+
+> Carvel is a set of reliable, single-purpose, composable command-line tools for building,
+> configuring and deploying applications to Kubernetes: ytt (structure-aware YAML templating),
+> kapp (application-level deploy), kbld (immutable image references), imgpkg (OCI bundling),
+> vendir (declarative vendoring), kapp-controller (GitOps continuous delivery and package
+> management) and secretgen-controller (declarative Kubernetes Secrets). Apache-2.0, CNCF Sandbox.
+
+Carvel operates no hosted API. There is no base URL, no API key, no rate limit and no pricing —
+the binaries run on your machine and the controllers run in your cluster. Its machine-readable
+contract is a set of Kubernetes CustomResourceDefinitions carrying full openAPIV3Schema, plus
+go-to-protobuf definitions for the same types. An agent drives Carvel by running a CLI or by
+submitting a custom resource to a Kubernetes apiserver it already has credentials for.
+
+Generated 2026-09-05 by API Evangelist from https://carvel.dev/ and the carvel-dev GitHub
+organization. carvel.dev/llms.txt returned 404 on that date, so this file is ours, not Carvel's.
+
+## Tools
+
+- [ytt](https://carvel.dev/ytt/): Template and overlay YAML by structure, not text. Starlark-based, hermetic, no filesystem/network/time/randomness access. v0.55.2.
+- [kapp](https://carvel.dev/kapp/): Deploy a labelled set of Kubernetes resources as one application. Separates a diff stage from an apply stage. v0.65.4.
+- [kbld](https://carvel.dev/kbld/): Resolve image references to digests and orchestrate builds/pushes during deploy. v0.49.1.
+- [imgpkg](https://carvel.dev/imgpkg/): Bundle configuration and images as OCI artifacts; relocate between registries, including air-gapped. v0.48.1.
+- [vendir](https://carvel.dev/vendir/): Declaratively state what belongs in a directory; sync from git, hg, http, OCI, GitHub releases, Helm charts. v0.46.1.
+- [kapp-controller](https://carvel.dev/kapp-controller/): App and Package CRDs, GitOps reconciliation, package management. CLI is kctrl. v0.60.6.
+- [secretgen-controller](https://github.com/carvel-dev/secretgen-controller): CRDs to generate Kubernetes Secrets and share them across namespaces. v0.21.2.
+
+## Contracts
+
+- [kapp-controller CRDs](https://raw.githubusercontent.com/carvel-dev/kapp-controller/develop/config/config/crds.yml): App, PackageInstall, PackageRepository, InternalPackage, InternalPackageMetadata — each with openAPIV3Schema.
+- [secretgen-controller CRDs](https://raw.githubusercontent.com/carvel-dev/secretgen-controller/develop/config/package-bundle/config/crds.yml): SecretExport, SecretImport, SecretTemplate, Certificate, Password, RSAKey, SSHKey.
+- [kappctrl v1alpha1 protobuf](https://raw.githubusercontent.com/carvel-dev/kapp-controller/develop/pkg/apis/kappctrl/v1alpha1/generated.proto): wire types for the App custom resource.
+- [datapackaging v1alpha1 protobuf](https://raw.githubusercontent.com/carvel-dev/kapp-controller/develop/pkg/apiserver/apis/datapackaging/v1alpha1/generated.proto): Package and PackageMetadata as served by the aggregated apiserver.
+- [vendir versions v1alpha1 protobuf](https://raw.githubusercontent.com/carvel-dev/vendir/develop/pkg/vendir/versions/v1alpha1/generated.proto): semver VersionSelection shared with kapp-controller.
+
+## Docs
+
+- [Documentation index](https://carvel.dev/shared/docs/latest/): shared docs — contributing, code of conduct, security policy, development guidelines.
+- [kapp command reference](https://carvel.dev/kapp/docs/v0.64.x/command-reference/): deploy, inspect, list, logs, delete and every flag.
+- [kapp diff stage](https://carvel.dev/kapp/docs/v0.64.x/diff/): change-set calculation, operation types (create/update/delete/noop/exists), --diff-run.
+- [kapp apply stage](https://carvel.dev/kapp/docs/v0.64.x/apply/): apply ordering, waiting, kapp.k14s.io/* annotations.
+- [imgpkg commands](https://carvel.dev/imgpkg/docs/v0.46.x/commands/): push, pull, copy, tag, describe.
+- [imgpkg authentication](https://carvel.dev/imgpkg/docs/v0.46.x/auth/): registry credential precedence — env vars, IaaS, flags, docker config.
+- [kapp-controller security model](https://carvel.dev/kapp-controller/docs/v0.57.x/security-model/): ServiceAccount impersonation for every App and PackageInstall.
+- [Security policy](https://carvel.dev/shared/docs/latest/security-policy/): coordinated disclosure to cncf-carvel-maintainers@lists.cncf.io.
+- [Install](https://carvel.dev/ytt/docs/v0.52.x/install/): install.sh, Homebrew tap carvel-dev/carvel, GitHub release binaries with cosign-verified checksums.
+
+## Getting started
+
+- [Deploying apps with ytt, kbld and kapp](https://carvel.dev/blog/deploying-apps-with-ytt-kbld-kapp/): the canonical pipeline — `ytt -f config/ | kbld -f- | kapp deploy -a app -f-`.
+- [ytt Playground](https://carvel.dev/ytt/#playground): hosted, no install, no account.
+- [simple-app-on-kubernetes](https://github.com/carvel-dev/simple-app-on-kubernetes): runnable end-to-end example.
+
+## Project
+
+- [GitHub organization](https://github.com/carvel-dev): 30+ repositories, Apache-2.0.
+- [Community](https://carvel.dev/community/): community meetings and #carvel on Kubernetes Slack.
+- [Blog](https://carvel.dev/blog/)
+- [Roadmap](https://github.com/carvel-dev/carvel/blob/develop/ROADMAP.md): stage/timeline table, last updated April 2024.
+- [Backlog board](https://github.com/orgs/carvel-dev/projects/1)
+- [OpenSSF Best Practices badge](https://www.bestpractices.dev/projects/7746): 97%, in progress.
+
+## Notes for agents
+
+- Every published API group is v1alpha1 — no Kubernetes compatibility guarantee.
+- kapp deploy is idempotent by convergence: an unchanged resource is classified `noop` and not touched. There is no idempotency key to send; read the change set instead.
+- `kapp deploy --diff-run` is a real dry run and exits without applying.
+- `kapp delete -a <app>` removes exactly the resources the app owns. There is no `kapp rollback` and no stated reversal window.
+- kapp asks for interactive confirmation unless `--yes` is passed; passing it skips the human gate.
+- Carvel issues no credential. Authorization is the caller's kubeconfig/RBAC plus OCI registry credentials.

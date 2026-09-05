@@ -1,0 +1,36 @@
+generated: '2026-09-05'
+method: searched
+source: https://github.com/carvel-dev
+note: >-
+  Carvel's machine-readable request/response contract is its CustomResourceDefinitions. Each CRD
+  carries a full openAPIV3Schema — structural JSON Schema for every field of every custom resource
+  a cluster operator or agent submits. Saved verbatim from the carvel-dev repositories that ship
+  them; no schema was authored, trimmed or derived here.
+schemas:
+  - file: carvel-kapp-controller-crds.yml
+    source: https://raw.githubusercontent.com/carvel-dev/kapp-controller/develop/config/config/crds.yml
+    http_status: 200
+    bytes: 111107
+    fetched: '2026-09-05'
+    format: CustomResourceDefinition (apiextensions.k8s.io/v1) with openAPIV3Schema
+    definitions:
+      - {group: kappctrl.k14s.io, kind: App, version: v1alpha1, scope: Namespaced}
+      - {group: packaging.carvel.dev, kind: PackageInstall, version: v1alpha1, scope: Namespaced}
+      - {group: packaging.carvel.dev, kind: PackageRepository, version: v1alpha1, scope: Namespaced}
+      - {group: internal.packaging.carvel.dev, kind: InternalPackage, version: v1alpha1, scope: Namespaced}
+      - {group: internal.packaging.carvel.dev, kind: InternalPackageMetadata, version: v1alpha1, scope: Namespaced}
+  - file: carvel-secretgen-controller-crds.yml
+    source: https://raw.githubusercontent.com/carvel-dev/secretgen-controller/develop/config/package-bundle/config/crds.yml
+    http_status: 200
+    bytes: 27980
+    fetched: '2026-09-05'
+    format: CustomResourceDefinition (apiextensions.k8s.io/v1) with openAPIV3Schema
+    definitions:
+      - {group: secretgen.carvel.dev, kind: SecretExport, version: v1alpha1, scope: Namespaced}
+      - {group: secretgen.carvel.dev, kind: SecretImport, version: v1alpha1, scope: Namespaced}
+      - {group: secretgen.carvel.dev, kind: SecretTemplate, version: v1alpha1, scope: Namespaced}
+      - {group: secretgen.k14s.io, kind: Certificate, version: v1alpha1, scope: Namespaced}
+      - {group: secretgen.k14s.io, kind: Password, version: v1alpha1, scope: Namespaced}
+      - {group: secretgen.k14s.io, kind: RSAKey, version: v1alpha1, scope: Namespaced}
+      - {group: secretgen.k14s.io, kind: SSHKey, version: v1alpha1, scope: Namespaced}
+schema_count: 12

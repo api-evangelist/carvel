@@ -4,162 +4,29 @@ schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main
 provider: Carvel
 providerId: carvel
 created: '2026-05-04'
-# Provenance stamped 2026-08-11: this artifact was written by the API Evangelist
-# bulk sweep dated 2026-05-04, not harvested from the provider. See roadmap#35.
-method: generated
-modified: '2026-05-04'
-tags:
-  - CLI
-  - Configuration
-  - Containers
-  - Deployment
-  - GitOps
-  - Kubernetes
-  - Package Management
-  - Templating
-description: Machine-readable plans and pricing scaffold for this API provider. Conforms to the API Commons
-  Plans schema. Tier limits and prices are scaffold defaults; replace with provider-published values.
-plans:
-  - id: carvel-free
-    name: Free
-    type: freemium
-    description: Free entry tier for the Carvel API surface. Intended for evaluation, prototyping, and
-      low-volume integrations. Real limits and pricing must be reconciled with the provider's published
-      plan documentation.
-    entries:
-      - label: API Requests
-        description: Monthly API request quota across all included endpoints
-        name: api_requests
-        type: quota
-        metric: requests
-        limit: 1000
-        timeFrame: month
-        geo: global
-        domains: []
-        unit: 1
-        price: '0.00'
-        userMultiplied: false
-      - label: Rate Limit
-        description: Maximum requests per minute on the free tier
-        name: rate_limit
-        type: rate
-        metric: requests_per_minute
-        limit: 10
-        timeFrame: minute
-        geo: global
-        domains: []
-        unit: 1
-        price: '0.00'
-        userMultiplied: false
-    elements:
-      - name: Public Documentation
-      - name: Community Support
-      - name: Sandbox Access
-      - name: ytt
-      - name: kapp
-      - name: kbld
-      - name: imgpkg
-      - name: vendir
-      - name: kapp-controller
-      - name: secretgen-controller
-  - id: carvel-pro
-    name: Professional
-    type: paid
-    description: Production tier for Carvel. Provides higher quotas, priority support, and access to the
-      broader API portfolio. Pricing placeholder; align with the provider's pricing page.
-    entries:
-      - label: API Requests
-        description: Monthly API request quota
-        name: api_requests
-        type: quota
-        metric: requests
-        limit: 100000
-        timeFrame: month
-        geo: global
-        domains: []
-        unit: 1
-        price: TBD
-        userMultiplied: false
-      - label: Rate Limit
-        description: Maximum requests per minute on the professional tier
-        name: rate_limit
-        type: rate
-        metric: requests_per_minute
-        limit: 100
-        timeFrame: minute
-        geo: global
-        domains: []
-        unit: 1
-        price: '0.00'
-        userMultiplied: false
-      - label: Overage
-        description: Per-request price after monthly quota is exceeded
-        name: overage
-        type: metered
-        metric: requests
-        limit: -1
-        timeFrame: month
-        geo: global
-        domains: []
-        unit: 1000
-        price: TBD
-        userMultiplied: false
-    elements:
-      - name: All Production Endpoints
-      - name: Email Support
-      - name: SLA Targets
-      - name: Webhook Subscriptions
-      - name: ytt
-      - name: kapp
-      - name: kbld
-      - name: imgpkg
-      - name: vendir
-      - name: kapp-controller
-      - name: secretgen-controller
-  - id: carvel-enterprise
-    name: Enterprise
-    type: enterprise
-    description: Custom-negotiated tier for Carvel. Includes dedicated capacity, contractual SLAs, security
-      review, data residency options, and named technical account management.
-    entries:
-      - label: API Requests
-        description: Negotiated request volume; -1 indicates uncapped subject to fair use
-        name: api_requests
-        type: quota
-        metric: requests
-        limit: -1
-        timeFrame: month
-        geo: configurable
-        domains: []
-        unit: 1
-        price: custom
-        userMultiplied: false
-      - label: Rate Limit
-        description: Negotiated burst and steady-state rate
-        name: rate_limit
-        type: rate
-        metric: requests_per_minute
-        limit: 1000
-        timeFrame: minute
-        geo: configurable
-        domains: []
-        unit: 1
-        price: custom
-        userMultiplied: false
-    elements:
-      - name: Unlimited / Negotiated Volume
-      - name: 24/7 Dedicated Support
-      - name: Contractual SLA
-      - name: Security & Compliance Review
-      - name: Dedicated Account Manager
-      - name: Custom Data Residency
-      - name: ytt
-      - name: kapp
-      - name: kbld
-      - name: imgpkg
-      - name: vendir
-      - name: kapp-controller
-      - name: secretgen-controller
-maintainers:
-  - FN: Kin Lane
-    email: kin@apievangelist.com
+modified: '2026-09-05'
+generated: '2026-09-05'
+method: searched
+source: https://carvel.dev/ and https://github.com/carvel-dev/ytt/blob/develop/LICENSE
+description: >-
+  Carvel publishes no plans and no pricing, and that is the correct finding rather than a gap.
+  Every tool is Apache-2.0 licensed, distributed as a signed binary or Go module, and run on
+  hardware the user already owns. There is no account, no metering and nothing to bill, so
+  plan_count is 0. This file replaces a 2026-05-04 bulk-sweep scaffold that had invented a "Free"
+  and a "Professional" tier with request quotas for an API that does not exist.
+plan_count: 0
+plans: []
+pricing_url: null
+free_tier: true
+free_tier_note: >-
+  Everything is free in the open-source sense — Apache-2.0, no registration, no rate card. Costs
+  land on the operator's own cluster, registry and CI, none of which Carvel bills for.
+commercial_offering: null
+commercial_note: >-
+  No paid edition, no hosted edition, no support contract sold by the project. Carvel is a CNCF
+  Sandbox project; commercial support historically came from VMware Tanzu distributions, which is
+  a downstream vendor relationship and not a Carvel plan.
+evidence:
+  - {url: 'https://carvel.dev/', http_status: 200, note: No pricing link anywhere in the site navigation.}
+  - {url: 'https://github.com/carvel-dev/ytt/blob/develop/LICENSE', http_status: 200, note: Apache-2.0.}
+tags: [CLI, Configuration, Containers, Deployment, GitOps, Kubernetes, Package Management, Templating, Open Source]

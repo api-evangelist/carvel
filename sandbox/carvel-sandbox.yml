@@ -1,0 +1,47 @@
+generated: '2026-09-05'
+method: searched
+source: https://carvel.dev/ytt/
+note: >-
+  There is no sandbox in the payments sense — no test keys, no test mode, no fixtures, because
+  there is no hosted service to run against. What Carvel does publish is a genuinely hosted
+  try-before-install surface for ytt, plus a locally-servable copy of the same thing.
+test_mode: null
+test_credentials: null
+test_values: null
+surfaces:
+  - name: ytt Playground
+    kind: hosted-playground
+    url: https://carvel.dev/ytt/#playground
+    auth_required: false
+    summary: >-
+      In-page interactive editor on carvel.dev — edit template, data-values and overlay files and
+      see the rendered YAML without installing anything. Reached from the "Try in Playground" call
+      to action on https://carvel.dev/ytt/.
+    examples_published: true
+    examples_note: >-
+      The playground ships worked examples (basics, data values, overlays, load, functions,
+      libraries) that double as the ytt tutorial.
+  - name: ytt website (self-hosted playground)
+    kind: local-playground
+    command: ytt website
+    auth_required: false
+    summary: Runs the same playground locally from the installed binary — the offline equivalent.
+    docs: https://carvel.dev/ytt/docs/v0.52.x/
+  - name: example applications
+    kind: reference-workloads
+    url: https://github.com/carvel-dev/simple-app-on-kubernetes
+    summary: >-
+      Runnable end-to-end examples (simple-app-on-kubernetes, guestbook-example-on-kubernetes,
+      ytt-library-for-kubernetes-demo) that exercise the ytt / kbld / kapp pipeline against a real
+      cluster. A local kind or minikube cluster is the de facto test environment.
+  - name: kctrl dev deploy
+    kind: local-reconcile
+    command: kctrl dev deploy -f app.yml
+    summary: >-
+      Reconciles an App CR locally without a cluster-side kapp-controller — the supported way to
+      rehearse a package before installing it.
+    docs: https://carvel.dev/kapp-controller/docs/v0.57.x/
+dry_run:
+  supported: true
+  command: kapp deploy -a <app> -f <config> --diff-run
+  note: See conventions/carvel-conventions.yml dry_run_mode for the full flag set.

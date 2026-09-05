@@ -1,0 +1,102 @@
+generated: '2026-09-05'
+method: searched
+source: https://carvel.dev/
+note: >-
+  Carvel is a CLI suite before it is anything else — six binaries plus an in-cluster controller.
+  Command surfaces below were read from each tool's own versioned reference page on carvel.dev on
+  2026-09-05; nothing is inferred from the binary.
+install:
+  - method: script
+    command: curl -L https://carvel.dev/install.sh | bash
+    note: Installs every Carvel tool at once. Honors K14SIO_INSTALL_BIN_DIR for a non-system prefix.
+    docs: https://carvel.dev/ytt/docs/v0.52.x/install/
+  - method: homebrew
+    command: brew tap carvel-dev/carvel && brew install ytt kapp kbld imgpkg vendir kctrl
+    tap: https://github.com/carvel-dev/homebrew
+  - method: github-release
+    command: Download the per-OS/arch binary from the GitHub release and verify its sha256 against the release notes.
+    note: Release checksums files are cosign-signed; the release notes carry the verification steps.
+  - method: github-action
+    command: 'uses: carvel-dev/setup-action@v2'
+    url: https://github.com/carvel-dev/setup-action
+  - method: go-install
+    command: go install carvel.dev/ytt/cmd/ytt@latest
+shell_completion: true
+clis:
+  - name: ytt
+    binary: ytt
+    purpose: Structure-aware YAML templating and overlays.
+    docs: https://carvel.dev/ytt/docs/v0.52.x/
+    version: v0.55.2
+    commands:
+      - {name: template, summary: "Template YAML files (-f inputs, --data-value/--data-value-yaml, --data-values-file)"}
+      - {name: fmt, summary: Format ytt YAML templates.}
+      - {name: website, summary: Serve the ytt playground locally.}
+      - {name: version, summary: Print the ytt version.}
+    key_flags: ['-f/--file', '--data-value', '--data-value-yaml', '--data-values-file', '--file-mark', '--output', '--strict']
+  - name: kapp
+    binary: kapp
+    purpose: Deploy, inspect and delete a labelled set of Kubernetes resources as one application.
+    docs: https://carvel.dev/kapp/docs/v0.64.x/command-reference/
+    version: v0.65.4
+    commands:
+      - {name: deploy, summary: "Converge an app to the supplied config; diff stage then apply stage."}
+      - {name: inspect, summary: Show the resources an app currently owns.}
+      - {name: list, summary: List apps in a namespace.}
+      - {name: logs, summary: Tail logs for the app's pods.}
+      - {name: delete, summary: Delete every resource the app owns.}
+    key_flags: ['-a/--app', '-f/--file', '-c/--diff-changes', '--diff-run', '--diff-exit-status', '--apply-timeout', '--wait', '--dangerous-allow-empty-list-of-resources']
+  - name: kbld
+    binary: kbld
+    purpose: Resolve image references to digests and orchestrate image builds/pushes during deploy.
+    docs: https://carvel.dev/kbld/docs/v0.49.x/
+    version: v0.49.1
+    commands:
+      - {name: '(default)', summary: "Read config on stdin/-f, resolve or build images, emit config with digest references."}
+      - {name: inspect, summary: Report the images referenced by an app.}
+      - {name: version, summary: Print the kbld version.}
+  - name: imgpkg
+    binary: imgpkg
+    purpose: Bundle configuration and images as OCI artifacts and relocate them between registries.
+    docs: https://carvel.dev/imgpkg/docs/v0.46.x/commands/
+    version: v0.48.1
+    commands:
+      - {name: push, summary: "Create a bundle in a registry from local files (-b/--bundle, -f)."}
+      - {name: pull, summary: Pull a bundle or image, optionally via a lock file, including nested bundles.}
+      - {name: copy, summary: Copy a bundle/image between registries or to and from a tar, resumable.}
+      - {name: tag, summary: List and manage tags on a bundle or image.}
+      - {name: describe, summary: Describe a bundle's contents and nested bundles.}
+  - name: vendir
+    binary: vendir
+    purpose: Declaratively vendor directory contents from git, hg, http, OCI images, GitHub releases, Helm charts.
+    docs: https://carvel.dev/vendir/docs/v0.46.x/
+    version: v0.46.1
+    commands:
+      - {name: sync, summary: Reconcile directories to the vendir.yml spec and write vendir.lock.yml.}
+      - {name: version, summary: Print the vendir version.}
+  - name: kctrl
+    binary: kctrl
+    purpose: Client for kapp-controller — consume and author packages without writing CRs by hand.
+    docs: https://carvel.dev/kapp-controller/docs/v0.57.x/
+    version: v0.60.6
+    commands:
+      - {name: 'package repository add/update/delete/list', summary: Manage PackageRepository custom resources.}
+      - {name: 'package available list/get', summary: Discover PackageMetadata and Package versions in the cluster.}
+      - {name: 'package install/installed', summary: Create and manage PackageInstall custom resources.}
+      - {name: 'app deploy/list/delete/status', summary: Manage App custom resources directly.}
+      - {name: 'dev deploy', summary: Deploy an App CR locally without a cluster-side controller.}
+      - {name: 'package init / package release', summary: Authoring flow — scaffold and release a package and repository bundle.}
+    note: >-
+      Command groups are taken from the kctrl Management and Authoring command-reference sections of
+      the kapp-controller docs nav; the deep-link paths under
+      /kapp-controller/docs/v0.57.x/kctrl-*-command-reference/ 404 on the site (recorded 2026-09-05).
+key_flows:
+  - name: template, resolve, deploy
+    steps: ytt -f config/ | kbld -f- | kapp deploy -a app -f-
+    docs: https://carvel.dev/blog/deploying-apps-with-ytt-kbld-kapp/
+  - name: preview before applying
+    steps: kapp deploy -a app -f config/ --diff-run --diff-changes
+    docs: https://carvel.dev/kapp/docs/v0.64.x/diff/
+  - name: air-gapped relocation
+    steps: imgpkg copy -b registry/bundle --to-tar bundle.tar; imgpkg copy --tar bundle.tar --to-repo private-registry/bundle
+    docs: https://carvel.dev/imgpkg/docs/v0.46.x/air-gapped-workflow/

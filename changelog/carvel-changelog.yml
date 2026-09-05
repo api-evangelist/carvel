@@ -1,0 +1,82 @@
+generated: '2026-09-05'
+method: searched
+source: https://api.github.com/repos/carvel-dev/<tool>/releases
+note: >-
+  Carvel has no single project changelog. Each tool releases independently on GitHub with dated,
+  semver-tagged release notes, and that is the source of truth. Recent window only, read
+  2026-09-05. Every release body carries cosign checksum-verification instructions, so signature
+  provenance is part of the published release record.
+scheme: semver
+per_tool_versioning: true
+current_versions:
+  ytt: v0.55.2
+  kapp: v0.65.4
+  kbld: v0.49.1
+  imgpkg: v0.48.1
+  vendir: v0.46.1
+  kapp-controller: v0.60.6
+  secretgen-controller: v0.21.2
+  setup-action: v2.2.0
+streams:
+  - tool: ytt
+    url: https://github.com/carvel-dev/ytt/releases
+    entries:
+      - {version: v0.55.2, date: '2026-08-14'}
+      - {version: v0.55.1, date: '2026-06-01'}
+      - {version: v0.55.0, date: '2026-05-14'}
+      - {version: v0.54.0, date: '2026-04-27'}
+      - {version: v0.53.2, date: '2026-02-19'}
+  - tool: kapp
+    url: https://github.com/carvel-dev/kapp/releases
+    entries:
+      - {version: v0.65.4, date: '2026-08-25'}
+      - {version: v0.65.3, date: '2026-05-14'}
+      - {version: v0.65.2, date: '2026-04-29'}
+      - {version: v0.65.1, date: '2026-02-17'}
+      - {version: v0.65.0, date: '2025-11-28'}
+  - tool: kbld
+    url: https://github.com/carvel-dev/kbld/releases
+    entries:
+      - {version: v0.49.1, date: '2026-06-17'}
+      - {version: v0.49.0, date: '2026-06-11'}
+      - {version: v0.48.1, date: '2026-06-01'}
+      - {version: v0.48.0, date: '2026-05-15'}
+      - {version: v0.47.3, date: '2026-04-17'}
+  - tool: imgpkg
+    url: https://github.com/carvel-dev/imgpkg/releases
+    entries:
+      - {version: v0.48.1, date: '2026-06-01'}
+      - {version: v0.48.0, date: '2026-05-14'}
+      - {version: v0.47.3, date: '2026-05-14'}
+      - {version: v0.47.2, date: '2026-02-17'}
+      - {version: v0.47.1, date: '2026-01-28'}
+  - tool: vendir
+    url: https://github.com/carvel-dev/vendir/releases
+    entries:
+      - {version: v0.46.1, date: '2026-08-25'}
+      - {version: v0.46.0, date: '2026-06-10'}
+      - {version: v0.45.4, date: '2026-06-01'}
+      - {version: v0.45.3, date: '2026-04-16'}
+      - {version: v0.45.2, date: '2026-02-17'}
+  - tool: kapp-controller
+    url: https://github.com/carvel-dev/kapp-controller/releases
+    entries:
+      - {version: v0.60.6, date: '2026-08-28'}
+      - {version: v0.60.5, date: '2026-08-26'}
+      - {version: v0.60.4, date: '2026-07-16'}
+      - {version: v0.60.3, date: '2026-06-22'}
+      - {version: v0.60.2, date: '2026-06-17'}
+  - tool: secretgen-controller
+    url: https://github.com/carvel-dev/secretgen-controller/releases
+    entries:
+      - {version: v0.21.2, date: '2026-08-25'}
+      - {version: v0.21.1, date: '2026-06-01'}
+      - {version: v0.21.0, date: '2026-05-21'}
+      - {version: v0.20.1, date: '2026-02-19'}
+      - {version: v0.20.0, date: '2025-11-27'}
+breaking_changes_recorded: false
+breaking_changes_note: >-
+  Release notes are per-tool and do not carry an explicit breaking/additive classification. All
+  seven tools remain on 0.x, so semver offers no compatibility promise; the docs site instead
+  publishes a versioned docs tree per minor line (for example /ytt/docs/v0.52.x/), which is where
+  behavioural differences are documented.

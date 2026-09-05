@@ -4,122 +4,40 @@ schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main
 provider: Carvel
 providerId: carvel
 created: '2026-05-04'
-# Provenance stamped 2026-08-11: this artifact was written by the API Evangelist
-# bulk sweep dated 2026-05-04, not harvested from the provider. See roadmap#35.
-method: generated
-modified: '2026-05-04'
-tags:
-  - CLI
-  - Configuration
-  - Containers
-  - Deployment
-  - GitOps
-  - Kubernetes
-  - Package Management
-  - Templating
-  - Rate Limiting
-  - Quotas
-  - Throttling
-description: Machine-readable rate limit definitions for the Carvel API surface. Captures per-tier quotas,
-  burst behavior, response signaling, and recovery semantics. Defaults are scaffold values to be replaced
-  with published provider limits.
-headers:
-  limit: X-RateLimit-Limit
-  remaining: X-RateLimit-Remaining
-  reset: X-RateLimit-Reset
-  retryAfter: Retry-After
-  policy: RateLimit-Policy
-responseCodes:
-  throttled: 429
-  quotaExceeded: 429
-  serviceUnavailable: 503
-limits:
-  - tier: free
-    name: Free Tier Default
-    scope: api-key
-    metric: requests_per_minute
-    limit: 10
-    burst: 20
-    timeFrame: minute
-    applies:
-      - ytt
-      - kapp
-      - kbld
-      - imgpkg
-      - vendir
-      - kapp-controller
-      - secretgen-controller
-  - tier: free
-    name: Free Tier Monthly Quota
-    scope: api-key
-    metric: requests_per_month
-    limit: 1000
-    timeFrame: month
-    applies:
-      - ytt
-      - kapp
-      - kbld
-      - imgpkg
-      - vendir
-      - kapp-controller
-      - secretgen-controller
-  - tier: professional
-    name: Professional Tier Default
-    scope: api-key
-    metric: requests_per_minute
-    limit: 100
-    burst: 200
-    timeFrame: minute
-    applies:
-      - ytt
-      - kapp
-      - kbld
-      - imgpkg
-      - vendir
-      - kapp-controller
-      - secretgen-controller
-  - tier: professional
-    name: Professional Tier Monthly Quota
-    scope: api-key
-    metric: requests_per_month
-    limit: 100000
-    timeFrame: month
-    applies:
-      - ytt
-      - kapp
-      - kbld
-      - imgpkg
-      - vendir
-      - kapp-controller
-      - secretgen-controller
-  - tier: enterprise
-    name: Enterprise Negotiated Limit
-    scope: contract
-    metric: requests_per_minute
-    limit: 1000
-    burst: 5000
-    timeFrame: minute
-    applies:
-      - ytt
-      - kapp
-      - kbld
-      - imgpkg
-      - vendir
-      - kapp-controller
-      - secretgen-controller
-policies:
-  - name: Backoff Strategy
-    description: Clients should implement exponential backoff with jitter, honoring the Retry-After header
-      when present.
-  - name: Burst Handling
-    description: Short bursts above the steady-state limit are tolerated up to the documented burst ceiling
-      before throttling engages.
-  - name: Quota Reset
-    description: Monthly quotas reset at the start of each calendar month in UTC. Per-minute and per-second
-      windows reset on a sliding-window basis.
-  - name: Fair Use
-    description: Even on uncapped enterprise tiers, sustained usage that materially impacts shared infrastructure
-      may be subject to fair-use throttling.
-maintainers:
-  - FN: Kin Lane
-    email: kin@apievangelist.com
+modified: '2026-09-05'
+generated: '2026-09-05'
+method: searched
+source: https://carvel.dev/
+description: >-
+  Carvel operates no endpoint, so it imposes no rate limit and returns no rate-limit header —
+  limit_count is 0 because there is nothing to limit, not because limits are undocumented. This
+  file replaces a 2026-05-04 bulk-sweep scaffold that had invented per-key quotas and
+  X-RateLimit-* headers for an API that does not exist. The throttling a Carvel user actually
+  meets belongs to third parties, and is recorded below as such.
+limit_count: 0
+limits: []
+headers: {}
+responseCodes: {}
+third_party_limits:
+  - source: OCI registry
+    applies_to: [imgpkg, kbld, vendir, kapp-controller]
+    note: >-
+      Docker Hub, GHCR, ECR and Harbor each enforce their own pull/push limits. imgpkg copy of a
+      large bundle is the operation most likely to hit them; the docs cover proxy configuration
+      and resumable tar copies, not rate limits.
+    owner: third-party
+  - source: Kubernetes API server
+    applies_to: [kapp, kctrl, kapp-controller, secretgen-controller]
+    note: >-
+      Client-side QPS/burst and server-side API Priority and Fairness are the cluster's settings.
+      kapp exposes --apply-concurrency (default 5) and --apply-check-interval (default 1s), which
+      shape how hard it drives the apiserver.
+    owner: third-party
+  - source: GitHub API
+    applies_to: [vendir]
+    note: githubRelease sources are subject to GitHub's unauthenticated rate limits unless a token is supplied.
+    owner: third-party
+evidence:
+  - {url: 'https://carvel.dev/', http_status: 200, note: No API, no published limits, no rate-limit headers to observe.}
+  - {url: 'https://carvel.dev/kapp/docs/v0.64.x/command-reference/', http_status: 200, note: Source of the --apply-concurrency and --apply-check-interval defaults.}
+tags: [CLI, Kubernetes, Open Source, Rate Limiting]

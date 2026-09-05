@@ -1,0 +1,106 @@
+generated: '2026-09-05'
+method: searched
+source: >-
+  https://carvel.dev/ docs, the carvel-dev repositories, json-schema/carvel-*-crds.yml and
+  grpc/carvel-*.proto in this repo
+note: >-
+  Carvel's market is Kubernetes application delivery, and the standards that matter there are the
+  Kubernetes CRD/apiextensions contract, the OCI image and distribution specs, and Sigstore release
+  signing. Each entry below points at the exact artifact or page that carries the evidence.
+standards:
+  - id: kubernetes-apiextensions-v1
+    name: Kubernetes CustomResourceDefinition (apiextensions.k8s.io/v1)
+    conforms: true
+    evidence: >-
+      json-schema/carvel-kapp-controller-crds.yml and
+      json-schema/carvel-secretgen-controller-crds.yml — 12 CRDs, apiVersion apiextensions.k8s.io/v1,
+      every version carrying a structural schema.
+  - id: openapi-v3-schema
+    name: OpenAPI v3 schema (as embedded in CRD openAPIV3Schema)
+    conforms: true
+    evidence: >-
+      All 12 CRDs declare schema.openAPIV3Schema. This is the request/response contract for the
+      Carvel custom resources; it is not a standalone OpenAPI document and Carvel publishes none.
+    note: >-
+      ytt additionally ships an "Export Schema in OpenAPI format" flow that emits an OpenAPI
+      document from a data-values schema — a generator for users, not a description of a Carvel API.
+      https://carvel.dev/ytt/docs/v0.52.x/how-to-export-schema/
+  - id: protobuf-proto2
+    name: Protocol Buffers (proto2, Kubernetes go-to-protobuf)
+    conforms: true
+    evidence: grpc/carvel-kapp-controller-kappctrl-v1alpha1.proto and two siblings, fetched verbatim 2026-09-05.
+  - id: oci-image-spec
+    name: OCI Image Specification
+    conforms: true
+    evidence: >-
+      imgpkg pushes, pulls and copies bundles as OCI artifacts in any Docker/OCI registry;
+      https://carvel.dev/imgpkg/docs/v0.46.x/
+  - id: oci-distribution-spec
+    name: OCI Distribution Specification
+    conforms: true
+    evidence: >-
+      imgpkg copy performs registry-to-registry and registry-to-tar relocation against standard
+      registry APIs, including non-distributable/foreign layers and image signatures;
+      https://carvel.dev/imgpkg/docs/v0.46.x/commands/
+  - id: semver
+    name: Semantic Versioning 2.0.0
+    conforms: true
+    evidence: >-
+      All release tags are semver; vendir and kapp-controller share a VersionSelection semver
+      constraint type (grpc/carvel-vendir-versions-v1alpha1.proto).
+  - id: sigstore-cosign
+    name: Sigstore / cosign artifact signing
+    conforms: true
+    evidence: >-
+      Every GitHub release body publishes cosign verification steps for the checksums file
+      (observed on ytt v0.55.2, kapp v0.65.4, kapp-controller v0.60.6, secretgen-controller v0.21.2,
+      2026-09-05).
+  - id: openssf-best-practices
+    name: OpenSSF Best Practices Badge
+    conforms: true
+    level: in_progress (97%)
+    evidence: https://www.bestpractices.dev/projects/7746 — badge_percentage 97, last updated 2023-08-21.
+  - id: starlark
+    name: Starlark configuration language
+    conforms: true
+    evidence: >-
+      ytt's templating language is Starlark, executed hermetically with no filesystem, network,
+      time, randomness or OS access; https://carvel.dev/ytt/docs/v0.52.x/lang/
+  - id: apache-2.0
+    name: Apache License 2.0
+    conforms: true
+    evidence: https://github.com/carvel-dev/ytt/blob/develop/LICENSE
+  - id: oauth2
+    conforms: false
+    evidence: No OAuth surface — Carvel authenticates through kubeconfig/RBAC and registry credentials.
+  - id: openid-connect
+    conforms: false
+    evidence: /.well-known/openid-configuration returned 404 on carvel.dev (2026-09-05).
+  - id: rfc9457-problem-details
+    conforms: false
+    evidence: No HTTP API; errors surface as CLI exit codes and Kubernetes status conditions.
+  - id: asyncapi
+    conforms: false
+    evidence: No event, streaming or webhook surface published.
+domain_standard:
+  id: oci-image-spec
+  market: Kubernetes application packaging and delivery
+  declared_in_contract: true
+  evidence: >-
+    imgpkg's entire command surface (push/pull/copy/tag/describe) is defined against OCI registries,
+    and kapp-controller's Package CRD fetch stanza accepts imgpkgBundle and image sources — the
+    openAPIV3Schema in json-schema/carvel-kapp-controller-crds.yml carries those fetch types as
+    first-class fields. A consumer who already speaks OCI needs no bespoke connector.
+  secondary:
+    - id: kubernetes-apiextensions-v1
+      note: >-
+        The other half of the domain contract — Carvel's API is a set of CRDs, so anything that can
+        talk to a Kubernetes apiserver can drive it with no Carvel-specific client.
+compliance_program:
+  published: false
+  note: >-
+    No SOC 2, ISO 27001, PCI or FedRAMP posture, and none would apply — Carvel is an Apache-2.0
+    CNCF Sandbox project that operates no service and processes no customer data. The OpenSSF
+    Best Practices badge above is the closest thing to a published assurance artifact, and it is a
+    supply-chain practice badge rather than a compliance certification, so no Compliance pointer is
+    emitted.
