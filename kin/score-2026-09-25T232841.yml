@@ -1,32 +1,30 @@
-# Kin Score artifact — carvel — 2026-09-02T211804
+# Kin Score artifact — carvel — 2026-09-25T232841
 # The API Evangelist rating (https://github.com/api-evangelist/kin-score). Generated; do not edit.
 ---
 kin_score:
   slug: carvel
-  schema_version: 0.18.0
-  scored_at: '2026-09-02'
-  run_ts: 2026-09-02T211804
-  composite: 26.2
+  schema_version: 0.23.0
+  scored_at: '2026-09-25'
+  run_ts: 2026-09-25T232841
+  composite: 38.5
   band: thin
   facets:
-    discoverability: 64.8
-    contract_quality: 0.0
-    governance: 0.0
-    operational_transparency: 36.8
-    developer_ergonomics: 17.9
-    commercial_clarity: 15.8
-    contract_governance: 0.0
-    access_clarity: 15.8
+    discoverability: 69.6
+    contract_quality: 32.0
+    contract_governance: 18.2
+    operational_transparency: 34.2
+    developer_ergonomics: 36.9
+    access_clarity: 7.9
   agent_readiness:
-    score: 2.5
-    band: human-only
+    score: 21.2
+    band: agent-aware
     dimensions:
-      spec_presence: false
+      spec_presence: true
       agentic_access: false
       reversibility_documented: false
       mcp_server: false
-      auth_clarity: false
-      idempotency: false
+      auth_clarity: bearer
+      idempotency: documented
       error_semantics: false
       openapi_examples: false
       rate_limit_signal: documented
@@ -40,6 +38,15 @@ kin_score:
       protected_resource_metadata: false
       dynamic_client_registration: false
       agentic_commerce: false
+  regulatory:
+    applies: true
+    regime: Horizontal (data, software, accessibility, platform)
+    regime_id: horizontal
+    score: 22.5
+    matched_via: fallback
   open_source:
     applies: true
     score: 100.0
+  provenance:
+    mcp: derived
+    conformance: first-party
