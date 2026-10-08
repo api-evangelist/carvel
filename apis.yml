@@ -254,6 +254,8 @@ apis:
       - Sharing secrets across namespaces
       - Declarative certificate management
 common:
+  - type: FinOps
+    url: finops/carvel-finops.yml
   - type: IssueTracker
     url: https://github.com/carvel-dev/ytt/issues
   - type: Releases
