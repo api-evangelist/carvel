@@ -39,3 +39,87 @@
     detected: '2026-10-15'
   status: not-a-workflow
   arazzo: null
+- slug: carvel-go-module-proxy
+  label: Go module proxy
+  partner_name: Go module proxy
+  category: official SDK (Go)
+  type: register
+  channel: package-registry
+  evidence: https://pkg.go.dev/carvel.dev/imgpkg
+  source: edge
+  relationship: distribution-channel
+  contract_reference:
+    register: Go module proxy (public registry JSON)
+    spec_file: null
+    language: Go
+    packages:
+    - name: carvel.dev/imgpkg
+      version: v0.49.0
+      released: '2026-10-13'
+      released_field: Time
+      lapsed: false
+      page: https://pkg.go.dev/carvel.dev/imgpkg
+      repo_leg: domain:carvel.dev
+      publisher_leg: module-path:carvel.dev
+      matched_by: domain
+    - name: carvel.dev/kapp
+      version: v0.66.1
+      released: '2026-10-13'
+      released_field: Time
+      lapsed: false
+      page: https://pkg.go.dev/carvel.dev/kapp
+      repo_leg: domain:carvel.dev
+      publisher_leg: module-path:carvel.dev
+      matched_by: domain
+    - name: carvel.dev/kapp-controller
+      version: v0.60.9
+      released: '2026-09-23'
+      released_field: Time
+      lapsed: false
+      page: https://pkg.go.dev/carvel.dev/kapp-controller
+      repo_leg: domain:carvel.dev
+      publisher_leg: module-path:carvel.dev
+      matched_by: domain
+    - name: carvel.dev/kbld
+      version: v0.49.2
+      released: '2026-09-29'
+      released_field: Time
+      lapsed: false
+      page: https://pkg.go.dev/carvel.dev/kbld
+      repo_leg: domain:carvel.dev
+      publisher_leg: module-path:carvel.dev
+      matched_by: domain
+    - name: carvel.dev/secretgen-controller
+      version: v0.21.4
+      released: '2026-10-09'
+      released_field: Time
+      lapsed: false
+      page: https://pkg.go.dev/carvel.dev/secretgen-controller
+      repo_leg: domain:carvel.dev
+      publisher_leg: module-path:carvel.dev
+      matched_by: domain
+    - name: carvel.dev/vendir
+      version: v0.46.2
+      released: '2026-09-08'
+      released_field: Time
+      lapsed: false
+      page: https://pkg.go.dev/carvel.dev/vendir
+      repo_leg: domain:carvel.dev
+      publisher_leg: module-path:carvel.dev
+      matched_by: domain
+    - name: carvel.dev/ytt
+      version: v0.55.3
+      released: '2026-09-23'
+      released_field: Time
+      lapsed: false
+      page: https://pkg.go.dev/carvel.dev/ytt
+      repo_leg: domain:carvel.dev
+      publisher_leg: module-path:carvel.dev
+      matched_by: domain
+    current: true
+    signal_note: 'an official package on the registry: distribution, not an integration; lapsed = no release in
+      24 months'
+    detected_by: sweep-official-sdks.py
+    detected: '2026-10-18'
+  status: not-a-workflow
+  arazzo: null
