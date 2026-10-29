@@ -1,4 +1,4 @@
-# Carvel (carvel)
+# Carvel
 
 <!-- API-EVANGELIST-PROVENANCE:BEGIN -->
 > ### About this repository
@@ -66,78 +66,111 @@
 
 Carvel is a set of reliable, single-purpose, composable command-line tools that help build, configure, and deploy applications to Kubernetes. The toolset includes ytt for YAML templating, kapp for application lifecycle management, kbld for immutable image references, imgpkg for OCI bundling, vendir for vendored configuration, and kapp-controller for GitOps-style continuous delivery.
 
-**URL:** [Visit APIs.json URL](https://raw.githubusercontent.com/api-evangelist/carvel/refs/heads/main/apis.yml)
+**Areas:** CLI · Configuration · Containers · Deployment · Developer Tools · GitOps · Kubernetes · Package Management · Templating
 
-## Scope
+## Carvel on APIs.io
 
-- **Type:** Index
-- **x-type:** opensource
-- **Position:** Consumer
-- **Access:** Open Source
+Everything profiled for Carvel is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/carvel/](https://apis.io/providers/carvel/)** — or go straight to one of the APIs or properties below.
 
-## Tags
+### APIs (7)
 
-- CLI
-- Configuration
-- Containers
-- Deployment
-- GitOps
-- Kubernetes
-- Package Management
-- Templating
+- [ytt](https://apis.io/apis/carvel/ytt/) — ytt is a templating tool that understands YAML structure, letting you use familiar YAML constructs and Python-like language (Starlark) to template…
+- [kapp](https://apis.io/apis/carvel/kapp/) — kapp is a CLI tool that installs, upgrades, and deletes multiple Kubernetes resources as a single application. It provides change set previews, resource…
+- [kbld](https://apis.io/apis/carvel/kbld/) — kbld builds or references container images in Kubernetes configuration in an immutable way by resolving image tags to digests and optionally building images…
+- [imgpkg](https://apis.io/apis/carvel/imgpkg/) — imgpkg bundles and distributes application configuration and container images as OCI artifacts via Docker registries, enabling relocation across registries…
+- [vendir](https://apis.io/apis/carvel/vendir/) — vendir declaratively states what files should be in a directory, syncing from upstream sources such as Git repositories, HTTP archives, Helm charts, and OCI…
+- [kapp-controller](https://apis.io/apis/carvel/kapp-controller/) — kapp-controller is a Kubernetes controller that provides GitOps-style continuous delivery for applications and packages using Carvel tools. It introduces…
+- [secretgen-controller](https://apis.io/apis/carvel/secretgen-controller/) — secretgen-controller provides CRDs to generate Kubernetes Secrets, export and import secrets across namespaces, and manage certificate and password creation…
 
-## APIs
+### Published properties
 
-### ytt
-YAML-structure-aware templating tool using Starlark.
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
 
-**Human URL:** [https://carvel.dev/ytt/](https://carvel.dev/ytt/)
+#### Security (3)
 
-### kapp
-Install, upgrade, and delete multiple Kubernetes resources as one application.
+Authentication, trust centre, and vulnerability disclosure.
 
-**Human URL:** [https://carvel.dev/kapp/](https://carvel.dev/kapp/)
+- [Carvel Authentication](https://apis.io/security/carvel/carvel-authentication/)
+- [Carvel Domain Security](https://apis.io/security/carvel/carvel-domain-security/)
+- [Carvel Vulnerability Disclosure](https://apis.io/security/carvel/carvel-vulnerability-disclosure/)
 
-### kbld
-Build or reference container images in Kubernetes configuration immutably.
+#### Plans and pricing (1)
 
-**Human URL:** [https://carvel.dev/kbld/](https://carvel.dev/kbld/)
+Published plans, tiers and prices.
 
-### imgpkg
-Bundle and relocate application configuration with images via OCI registries.
+- [Carvel Plans Pricing](https://apis.io/plans/carvel/carvel-plans-pricing/)
 
-**Human URL:** [https://carvel.dev/imgpkg/](https://carvel.dev/imgpkg/)
+#### Rate limits (1)
 
-### vendir
-Declaratively state what files should be in a directory.
+Published request limits.
 
-**Human URL:** [https://carvel.dev/vendir/](https://carvel.dev/vendir/)
+- [Carvel Rate Limits](https://apis.io/rate-limits/carvel/carvel-rate-limits/)
 
-### kapp-controller
-Kubernetes package manager with GitOps-style continuous delivery.
+#### FinOps (1)
 
-**Human URL:** [https://carvel.dev/kapp-controller/](https://carvel.dev/kapp-controller/)
+What the API costs to run, by operation.
 
-### secretgen-controller
-Generate, export, and import Kubernetes Secrets via CRDs.
+- [Carvel Finops](https://apis.io/finops/carvel/carvel-finops/)
 
-**Human URL:** [https://github.com/carvel-dev/secretgen-controller](https://github.com/carvel-dev/secretgen-controller)
+## Where to find this API
 
-## Common Properties
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
 
 - [Website](https://carvel.dev/)
-- [Documentation](https://carvel.dev/docs/latest/)
-- [GitHub Organization](https://github.com/carvel-dev)
+- [Documentation](https://carvel.dev/shared/docs/latest/)
 - [Blog](https://carvel.dev/blog/)
-- [Slack](https://kubernetes.slack.com/archives/CH8KCCKA5)
-- [Community](https://carvel.dev/community/)
+- [Security](https://carvel.dev/shared/docs/latest/security-policy/)
+- [GitHub](https://github.com/carvel-dev)
 
-## Timestamps
+## API Evangelist rating
 
-- **Created:** 2026-03-26
-- **Modified:** 2026-04-23
+**Kin Score 37.2** — thin · rubric 0.24.0 · scored 2026-10-17
 
-## Maintainers
+| Facet | Score |
+|---|---|
+| Discoverability | 69.6 |
+| Contract quality | 32.0 |
+| Contract governance | 18.2 |
+| Operational transparency | 34.2 |
+| Developer ergonomics | 36.9 |
+| Access clarity | 0.0 |
 
-**FN:** Kin Lane
-**Email:** kin@apievangelist.com
+**Agent readiness 21.2** — agent-aware
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | — |
+| Reversibility Documented | — |
+| MCP Server | — |
+| Auth Clarity | bearer (partial credit) |
+| Idempotency | documented (partial credit) |
+| Error Semantics | — |
+| OpenAPI Examples | — |
+| Rate Limit Signal | documented (partial credit) |
+| Event Surface Described | — |
+| Agent Skills | — |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+
+**Regulatory alignment 22.5** — Horizontal (data, software, accessibility, platform)
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/carvel/](https://apis.io/providers/carvel/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Carvel: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/carvel/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
